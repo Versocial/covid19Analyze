@@ -46,15 +46,16 @@ def dataDay(n):
 
 
 def __testX(x):
-    y=NULL if str(x).isspace() or x==numpy.NAN or x is None else x
+    y = NULL if str(x).isspace() or x == numpy.NAN or x is None else x
     # print('[',x,']',type(x),'[',y,']',type(y))
     return y
 
+
 def cleanByLine(df):
-    df=df.applymap(lambda x:__testX(x))
-    df.dropna(axis=0,how='any',inplace=True)
-    cols=df.columns.values.tolist()
+    df = df.applymap(lambda x: __testX(x))
+    df.dropna(axis=0, how='any', inplace=True)
+    cols = df.columns.values.tolist()
     for col in cols:
-        df=df[df[col] != NULL]
+        df = df[df[col] != NULL]
     # print(df)
     return df

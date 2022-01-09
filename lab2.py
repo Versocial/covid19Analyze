@@ -12,8 +12,8 @@ def color(n):
 
 def path(n):
     return \
-    [('rowdata/data.' + (datetime.datetime(2021, 12, 5) + datetime.timedelta(days=i)).strftime('%y%m%d') + '.csv')
-     for i in range(0, 15)][n]
+        [('rowdata/data.' + (datetime.datetime(2021, 12, 5) + datetime.timedelta(days=i)).strftime('%y%m%d') + '.csv')
+         for i in range(0, 15)][n]
 
 
 def TotalCasesIncTop10():
@@ -47,8 +47,9 @@ def PrintTotalCasesIncTop10():
         choose = numpy.isfinite(
             data[data['Region'] == region][['NewCases' + str(i) for i in range(0, 15)]].astype(numpy.double))
         Y = \
-        data[data['Region'] == region][['NewCases' + str(i) for i in range(0, 15)]][choose].astype(numpy.double).iloc[
-            0].tolist()
+            data[data['Region'] == region][['NewCases' + str(i) for i in range(0, 15)]][choose].astype(
+                numpy.double).iloc[
+                0].tolist()
         print(Y)
         plt.plot(X, Y,
                  label='NO.' + str(i + 1) + region,
