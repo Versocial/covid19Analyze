@@ -11,7 +11,7 @@ def color(n):
 
 
 def path(n):
-    return [('data/data.' + (datetime.datetime(2021, 12, 5) + datetime.timedelta(days=i)).strftime('%y%m%d') + '.csv')
+    return [('rowdata/data.' + (datetime.datetime(2021, 12, 5) + datetime.timedelta(days=i)).strftime('%y%m%d') + '.csv')
             for i in range(0, 15)][n]
 
 
