@@ -7,12 +7,13 @@ from pandas import Series, DataFrame
 
 
 def color(n):
-    return ['red', 'darkorange', 'goldenrod', 'yellow', 'green', 'blue', 'indigo', 'gray', 'black', 'olive'][n%10]
+    return ['red', 'darkorange', 'goldenrod', 'yellow', 'green', 'blue', 'indigo', 'gray', 'black', 'olive'][n % 10]
 
 
 def path(n):
-    return [('rowdata/data.' + (datetime.datetime(2021, 12, 5) + datetime.timedelta(days=i)).strftime('%y%m%d') + '.csv')
-            for i in range(0, 15)][n]
+    return \
+    [('rowdata/data.' + (datetime.datetime(2021, 12, 5) + datetime.timedelta(days=i)).strftime('%y%m%d') + '.csv')
+     for i in range(0, 15)][n]
 
 
 def TotalCasesIncTop10():
@@ -30,7 +31,8 @@ def TotalCasesIncTop10():
 
 def PrintTotalCasesIncTop10():
     data = TotalCasesIncTop10().head(10)
-    data.replace(to_replace='None',value=None,inplace=True)# lambda x:x if(isinstance(int)or(isinstance(str)and not x=='None'))else None,inplace=True
+    data.replace(to_replace='None', value=None,
+                 inplace=True)  # lambda x:x if(isinstance(int)or(isinstance(str)and not x=='None'))else None,inplace=True
     for i in range(0, 15):
         dataI = pandas.read_csv(path(i))
         dataI.replace(to_replace='None', value=None, inplace=True)
@@ -41,16 +43,18 @@ def PrintTotalCasesIncTop10():
     for i in range(0, 10):
         region = data.iloc[i]['Region']
         print(region)
-        X=[i for i in(range(0 + 5, 15 + 5))]
-        choose=numpy.isfinite(
-                     data[data['Region'] == region][['NewCases' + str(i) for i in range(0, 15)]].astype(numpy.double))
-        Y=data[data['Region'] == region][['NewCases' + str(i) for i in range(0, 15)]][choose].astype(numpy.double).iloc[0].tolist()
+        X = [i for i in (range(0 + 5, 15 + 5))]
+        choose = numpy.isfinite(
+            data[data['Region'] == region][['NewCases' + str(i) for i in range(0, 15)]].astype(numpy.double))
+        Y = \
+        data[data['Region'] == region][['NewCases' + str(i) for i in range(0, 15)]][choose].astype(numpy.double).iloc[
+            0].tolist()
         print(Y)
-        plt.plot(X,Y,
+        plt.plot(X, Y,
                  label='NO.' + str(i + 1) + region,
                  color=color(i))
-    plt.rcParams['savefig.dpi']=180
-    plt.rcParams['figure.dpi']=180
+    plt.rcParams['savefig.dpi'] = 180
+    plt.rcParams['figure.dpi'] = 180
     plt.subplots_adjust(right=0.7)
     plt.title('Total Cases Top 10 From 2021-12-5 to 2021-12-19')
     plt.legend(bbox_to_anchor=(1.03, 0), loc=3, borderaxespad=0)
