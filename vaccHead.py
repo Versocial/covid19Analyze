@@ -13,9 +13,10 @@ __vaccData = pandas.read_csv('vacc/vacc.csv')
 
 __colors = ['red', 'darkorange', 'goldenrod', 'yellow', 'green', 'blue', 'indigo', 'gray', 'black', 'olive']
 
+
 def vaccData():
     data = __vaccData
-    data=data.applymap(lambda x: float(x[0:len(x) - 1]) if isinstance(x, str) and x[len(x) - 1] == '%' else x)
+    data = data.applymap(lambda x: float(x[0:len(x) - 1]) if isinstance(x, str) and x[len(x) - 1] == '%' else x)
 
     return data.iloc[2:len(data)]
 
@@ -37,9 +38,10 @@ def cleanByLine(df):
         df = df[df[col] != NULL]
     return df
 
+
 def showInPercent(temp, position):
-  return '%1.2f'%(temp*100) + '%'
+    return '%1.2f' % (temp * 100) + '%'
 
 
 def showInKilo(temp, position):
-  return '%1.0f'%(temp/1000) + 'k'
+    return '%1.0f' % (temp / 1000) + 'k'

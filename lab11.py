@@ -23,7 +23,7 @@ def worldMap(dataChoose, title, subtitle, colorMin, colorMax):
         'Laos': 'Lao PDR'
     }
     minNumber = dataChoose.min()
-    maxNumber = dataChoose.max()/1.5
+    maxNumber = dataChoose.max() / 1.5
     names = list(dataChoose.index)
     data = [[(toReplace[name] if name in toReplace.keys() else name), float(dataChoose[name])] for name in names]
     # names=[toReplace[name] if name in toReplace.keys() else name for name in names]
@@ -55,7 +55,8 @@ def worldMap(dataChoose, title, subtitle, colorMin, colorMax):
 # dataChoose=dataChoose/population[h.Population]
 # print(dataChoose)
 # worldMap(dataChoose, '2021.Dec 6-30 累计确诊率地图', '数据来源：https://www.worldometers.info/', '#99FF33', '#990000')
-population=h.cleanByLine(h.dataDay(endDay)[[h.Region,h.Population]]).set_index([h.Region]).astype(float)
-dataChoose = h.cleanByLine(h.dataDay(endDay)[[h.Region, h.TotalCases]]).set_index([h.Region])[h.TotalCases].astype(float)
-dataChoose=dataChoose/population[h.Population]
+population = h.cleanByLine(h.dataDay(endDay)[[h.Region, h.Population]]).set_index([h.Region]).astype(float)
+dataChoose = h.cleanByLine(h.dataDay(endDay)[[h.Region, h.TotalCases]]).set_index([h.Region])[h.TotalCases].astype(
+    float)
+dataChoose = dataChoose / population[h.Population]
 worldMap(dataChoose, '2021.Dec 30 累计确诊率地图', '数据来源：https://www.worldometers.info/', '#ccff00', '#990000')

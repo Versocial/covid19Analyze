@@ -42,6 +42,10 @@ def color(n):
 
 def dataDay(n):
     ans = __virusData[n - startDay]
+    choose = [True if isinstance(x, str) and not str(x).isspace() and int(x) >= 2000000 else False for x in
+              list(ans[Population])]
+    choose = ().astype(float) > 30000
+    print('choose ', len(ans[choose]))
     return ans
 
 
@@ -60,11 +64,14 @@ def cleanByLine(df):
     # print(df)
     return df
 
+
 def showInPercent(temp, position):
-  return '%1.2f'%(temp*100) + '%'
+    return '%1.2f' % (temp * 100) + '%'
+
 
 def showInMillion(temp, position):
-  return '%1.0f'%(temp/1000000) + 'M'
+    return '%1.0f' % (temp / 1000000) + 'M'
+
 
 def showInKilo(temp, position):
-  return '%1.0f'%(temp/1000) + 'k'
+    return '%1.0f' % (temp / 1000) + 'k'
