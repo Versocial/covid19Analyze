@@ -4,7 +4,7 @@ import numpy
 import pandas
 
 startDay = 5
-endDay = 19
+endDay = 30
 dayNum = endDay - startDay + 1
 __filePaths = [
     ('data/data.' + (datetime.datetime(2021, 12, startDay) + datetime.timedelta(days=i)).strftime('%y%m%d') + '.csv')
@@ -59,3 +59,12 @@ def cleanByLine(df):
         df = df[df[col] != NULL]
     # print(df)
     return df
+
+def showInPercent(temp, position):
+  return '%1.2f'%(temp*100) + '%'
+
+def showInMillion(temp, position):
+  return '%1.0f'%(temp/1000000) + 'M'
+
+def showInKilo(temp, position):
+  return '%1.0f'%(temp/1000) + 'k'

@@ -17,7 +17,6 @@ toReplace={
     'Laos':'Lao PDR'
 }
 
-
 dataChoose=v.cleanByLine(v.vaccData()[[v.Region,v.vaccinatedRate]])
 dataChoose=dataChoose.applymap(lambda x:toReplace[x] if x in toReplace.keys() else x)
 names=list(dataChoose[v.Region])

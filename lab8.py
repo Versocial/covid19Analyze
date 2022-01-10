@@ -1,6 +1,7 @@
 import numpy
 import pandas
 import matplotlib.pyplot as plt
+from matplotlib.ticker import FuncFormatter
 
 import head as h
 
@@ -25,5 +26,9 @@ for i in range(len(Y)):
     y=Y[i]
     text=TextY[i]
     print(x,y)
-    plt.text(x,y,'{0}({1})'.format(y,text))
+    plt.text(x,y,'%.6f Million('%(y/1000000)+TextY[i]+')')
+plt.gca().yaxis.set_major_formatter(FuncFormatter(h.showInMillion))
+plt.xticks([])
+plt.xlim(0.86,1.7)
+plt.ylabel('infected number')  # y轴标注
 plt.show()

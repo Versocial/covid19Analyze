@@ -11,6 +11,7 @@ TotalDoes = 'TotalDoes'
 
 __vaccData = pandas.read_csv('vacc/vacc.csv')
 
+__colors = ['red', 'darkorange', 'goldenrod', 'yellow', 'green', 'blue', 'indigo', 'gray', 'black', 'olive']
 
 def vaccData():
     data = __vaccData
@@ -35,3 +36,10 @@ def cleanByLine(df):
     for col in cols:
         df = df[df[col] != NULL]
     return df
+
+def showInPercent(temp, position):
+  return '%1.2f'%(temp*100) + '%'
+
+
+def showInKilo(temp, position):
+  return '%1.0f'%(temp/1000) + 'k'

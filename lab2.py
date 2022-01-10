@@ -1,67 +1,61 @@
-import datetime
-
-import numpy
 import pandas
-import matplotlib.pyplot as plt
-from pandas import Series, DataFrame
+from matplotlib import pyplot as plt
+from matplotlib.ticker import FuncFormatter
+
+import head as h
+
+startDay=5
+endDay=19
+
+def TopN(n):
+    TotalCasesBefore='TotalCases0'
+    TotalCasesInc='TotalCasesInc'
+    datas=h.dataDay(startDay)[[h.Region,h.TotalCases,h.NewCases]]
+    datas=h.cleanByLine(datas)
+    datas[TotalCasesBefore]=datas[h.TotalCases]-datas[h.NewCases]
+    datas=h.cleanByLine(datas[[h.Region,TotalCasesBefore]])
+    datae=h.dataDay(endDay)[[h.Region,h.TotalCases]]
+    joinData=pandas.merge(left=datas, right=datae, how='inner', left_on=h.Region, right_on=h.Region)
+    joinData=h.cleanByLine(joinData)
+    joinData[TotalCasesInc]=joinData[h.TotalCases]-joinData[TotalCasesBefore]
+    joinData.sort_values(by=TotalCasesInc,inplace=True,ascending=False)
+    joinData=joinData.iloc[0:n]
+    return joinData[h.Region]
+
+n=10
+countrys= list(TopN(n))
+days=list(range(startDay,endDay+1))
+for i in range(n):
+    country=countrys[i]
+    dataStart=h.cleanByLine(h.dataDay(startDay)[[h.Region, h.NewCases]])
+    dataStart.set_index([h.Region], inplace=True)
+    data=[int(dataStart.loc[country][h.NewCases])]
+
+    dataDays = []
+    for j in range(startDay, endDay + 1):
+        dataDay = h.cleanByLine(h.dataDay(j)[[h.Region, h.TotalCases]])
+        dataDay.set_index([h.Region], inplace=True)
+        dataDays.append(dataDay.loc[country][h.TotalCases])
+    print('||',country,dataDays)
+    for j in range(endDay-startDay):
+        data.append(dataDays[j+1]-dataDays[j])
+    plt.plot(days, data,lw=1, c=h.color(i), marker=None, ms=4,label='NO.'+str(i+1)+':\n'+country)
+
+fig = plt.gcf()
+fig.set_size_inches(9.5, 6.5, forward=True)
+
+plt.rcParams['savefig.dpi'] = 180
+plt.rcParams['figure.dpi'] = 180
+plt.subplots_adjust(right=0.82,left=0.075)
+plt.title('New Cases From 2021-12-'+str(startDay)+' to 2021-12-'+str(endDay))
+plt.xticks(days)  # x轴的刻度
+plt.xlim(startDay-0.1, endDay+0.1)  # x轴坐标范围
+plt.xlabel('day in Dec.2021')  # x轴标注
+plt.ylabel('new cases')  # y轴标注
+plt.gca().yaxis.set_major_formatter(FuncFormatter(h.showInKilo))
+plt.legend(bbox_to_anchor=(1.02, 0), loc=3, borderaxespad=0)
+plt.show()
 
 
-def color(n):
-    return ['red', 'darkorange', 'goldenrod', 'yellow', 'green', 'blue', 'indigo', 'gray', 'black', 'olive'][n % 10]
 
 
-def path(n):
-    return \
-        [('rowdata/data.' + (datetime.datetime(2021, 12, 5) + datetime.timedelta(days=i)).strftime('%y%m%d') + '.csv')
-         for i in range(0, 15)][n]
-
-
-def TotalCasesIncTop10():
-    data0 = pandas.read_csv(path(0))[['Region', 'TotalCases']]
-    data0.rename(columns={'TotalCases': 'TotalCases0'}, inplace=True)
-    data14 = pandas.read_csv(path(14))[['Region', 'TotalCases']]
-    data14.rename(columns={'TotalCases': 'TotalCases14'}, inplace=True)
-    joinData = pandas.merge(left=data0, right=data14, how='inner', left_on='Region', right_on='Region')
-    print(joinData)
-    joinData['TotalCasesInc'] = joinData['TotalCases14'] - joinData['TotalCases0']
-    joinData.sort_values(by='TotalCasesInc', ascending=False, inplace=True)
-    print(joinData)
-    return joinData
-
-
-def PrintTotalCasesIncTop10():
-    data = TotalCasesIncTop10().head(10)
-    data.replace(to_replace='None', value=None,
-                 inplace=True)  # lambda x:x if(isinstance(int)or(isinstance(str)and not x=='None'))else None,inplace=True
-    for i in range(0, 15):
-        dataI = pandas.read_csv(path(i))
-        dataI.replace(to_replace='None', value=None, inplace=True)
-        dataI.rename(columns={'NewCases': 'NewCases' + str(i)}, inplace=True)
-        data = pandas.merge(left=data, right=dataI, how='left', left_on='Region', right_on='Region')
-        pandas.set_option('display.max_columns', None)
-    print(data)
-    for i in range(0, 10):
-        region = data.iloc[i]['Region']
-        print(region)
-        X = [i for i in (range(0 + 5, 15 + 5))]
-        choose = numpy.isfinite(
-            data[data['Region'] == region][['NewCases' + str(i) for i in range(0, 15)]].astype(numpy.double))
-        Y = \
-            data[data['Region'] == region][['NewCases' + str(i) for i in range(0, 15)]][choose].astype(
-                numpy.double).iloc[
-                0].tolist()
-        print(Y)
-        plt.plot(X, Y,
-                 label='NO.' + str(i + 1) + region,
-                 color=color(i))
-    plt.rcParams['savefig.dpi'] = 180
-    plt.rcParams['figure.dpi'] = 180
-    plt.subplots_adjust(right=0.7)
-    plt.title('Total Cases Top 10 From 2021-12-5 to 2021-12-19')
-    plt.legend(bbox_to_anchor=(1.03, 0), loc=3, borderaxespad=0)
-    plt.show()
-
-
-if __name__ == '__main__':
-    TotalCasesIncTop10()
-    PrintTotalCasesIncTop10()

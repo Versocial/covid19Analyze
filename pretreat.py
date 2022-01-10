@@ -22,7 +22,6 @@ def preTreat(data):
             data = data.replace(each, '', -1)
     return data
 
-
 def vaccDataPretreat():
     rowPath = 'vacc/vacc_row.csv'
     rowData = pandas.read_csv(rowPath)
