@@ -27,7 +27,6 @@ c = (
     Map(init_opts=opts.InitOpts(theme=ThemeType.LIGHT))
     .add("World map",data, "world",is_map_symbol_show=False, zoom=1)
     .set_series_opts(label_opts=opts.LabelOpts(is_show=False))
-
     .set_global_opts(
         visualmap_opts=opts.VisualMapOpts(max_=1, min_=0,range_color=[ "#330000","#66ff00"]),
         title_opts=opts.TitleOpts(title="各国疫苗接种总体情况",
