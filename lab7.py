@@ -9,7 +9,7 @@ Rate = '__Rate'
 data[Rate] = data[v.DoesPer100] / 100
 data.sort_values(by=Rate, inplace=True)
 data = data.iloc[0:n]
-title = ''
+title = 'vaccinated rate top '+str(n)
 
 Y = list(data[v.Region])
 Y.reverse()

@@ -44,7 +44,6 @@ def dataDay(n):
     ans = __virusData[n - startDay]
     choose = [True if isinstance(x, str) and not str(x).isspace() and int(x) >= 2000000 else False for x in
               list(ans[Population])]
-    choose = ().astype(float) > 30000
     print('choose ', len(ans[choose]))
     return ans
 
